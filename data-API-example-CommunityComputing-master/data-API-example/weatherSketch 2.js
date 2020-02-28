@@ -6,11 +6,6 @@ var num = [5391997, 5368381, 5128581, 6534479];
 var lj;
 let cities;
 
-function test(data){
-  cities = data;
-  console.log('it worke')
-}
-
 function setup() {
 
   // document.addEventListener('keydown',keydown)
@@ -22,8 +17,10 @@ function setup() {
   lj(num[0])
   lj(num[1])
 
-  loadJSON('/city.list.json', test)
-  console.log(cities.id[0])
+  cities = loadJSON("city.list.json")
+  if(cities != null){
+    console.log('it work')
+  }
 }
 
 function lj(){
