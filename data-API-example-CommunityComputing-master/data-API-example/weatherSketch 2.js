@@ -5,21 +5,24 @@ var lj;
 let cities;
 var bc;
 var country = "US";
+var start; //CANT DEFINE HERE BC IT DOESNT KNOW 'COLOR' FUNCTION YET
+var stop;
 
 function setup() {
+  start = color(255,204,0);
+  stop = color(255,100,255);
 
   var button = document.getElementById('button')
   button.addEventListener('click', lj)
 
-  createCanvas(800, 400);
+  let canvas = createCanvas(800, 400).elt;
+  console.log(canvas);
+
+  canvas.parentElement.insertBefore(canvas, button);
 
   loadJSON("city.list.json", gotCities)
 
   bc = [0,0,0];
-
-  canv = document.getElementById('defaultCanvas0')
-  canv.style.justifyContent = 'center'
-  console.log(canv.style.justifyContent)
 }
 
 //LOADS RANDOM CITY DATA OF COUNTRY
@@ -48,9 +51,21 @@ function findCities() {
   }
 }
 
+function setGradient(c1, c2) {
+noFill();
+  for (var y = 0; y < height; y++) {
+    var inter = map(y, 0, height, 0, 1);
+    var c = lerpColor(c1, c2, inter);
+    stroke(c);
+    line(0, y, width, y);
+  }
+}
+
 function draw() {
 
-  background(bc[0],bc[1],bc[2]);
+  setGradient(start,stop)
+
+  // background(bc[0],bc[1],bc[2]);
   if (weather) {
 
     var now = Date.now() / 1000
@@ -60,6 +75,9 @@ function draw() {
     var secToSunset = Math.floor(timeToSunset % 60)
 
     //WRITE THE DATA
+
+    textAlign(CENTER)
+
     fill('white')
     textSize(12)
     text(weather.name + ", " + weather.sys.country, width/2, 50)
